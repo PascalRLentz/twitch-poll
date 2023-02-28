@@ -31,6 +31,10 @@ ComfyJS.Init(twitchTvHandle);
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
   console.log(`!${command} was typed in chat`);
 
+  if (command == "poll1 pascal") {
+    new addPoll(user, command);
+  }
+
   if (command == "yo") {
     new gifAlert(user, beyGif, pewAudio, command);
   }
@@ -59,6 +63,23 @@ const generateTitle = {
   welcome: " needs a welcome!",
   pizza: " needed a pizza party!",
 };
+
+function addPoll (user, type) {
+  queue.add(async () => {
+    container.innerHTML = `
+      <h1 class="text-shadows">${user + generateTitle[type]}</h1>
+      <p>Test</p>
+    `;
+    container.style.opacity = 1;
+
+    await wait(DISPLAY_DURATION);
+
+    if (!queue.isLooping) {
+      container.style.opacity = 0;
+    }
+
+  });
+}
 
 function gifAlert(user, gif, audio, type) {
   queue.add(async () => {
